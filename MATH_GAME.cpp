@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <climits>
 using namespace std;
 
 enum enlevel{easy = 1, mediam = 2, hard = 3, mix = 4};
@@ -15,6 +16,12 @@ int ReadNumberOfQuestions(void){
     int number;
     cout << "how many Question do you want answer ? : " << endl;
     cin >> number;
+    while (cin.fail()){
+        cin.clear();
+        cin.ignore(LLONG_MAX, '\n');
+        cout << "Invalid Number, Enter a valid one:" << endl;
+        cin >> number;
+    }
     return number;
 }
 
@@ -149,7 +156,10 @@ int main(){
         system("tput sgr0");
         system("stty sane");
         system("clear");
-        PrintResult(ReadOperationOfQuestion(), ReadLevelOfQuestions(), ReadNumberOfQuestions());
+        int number = ReadNumberOfQuestions();
+        enlevel level = ReadLevelOfQuestions();
+        enoperation operation = ReadOperationOfQuestion();
+        PrintResult(operation, level, number);
         cout << "do you want other Question ? \n--> ";
         cin >> reponce;
     }while(reponce == 'y' || reponce == 'Y');
