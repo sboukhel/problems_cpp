@@ -10,7 +10,7 @@ int randomfuction(int from, int to){
 
 int main(){
     srand((unsigned)time(NULL));
-
+    cout << "your random number is : " << endl;
     cout << randomfuction(1, 4000) << endl;
     return 0;
 }

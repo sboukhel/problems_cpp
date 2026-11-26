@@ -91,14 +91,14 @@ int OperationOfQuestion(enoperation opearation, int number1, int number2, char &
 
 void  checkAnswer(int useranswer, int correctanswer, answer &Answer){
     if(useranswer == correctanswer){
-        system("tput setab 2");
-        system("tput setaf 0");
+        system("printf '\\033]11;#00ff00\\007'");
+        system("printf '\\033]10;#000000\\007'");
         Answer.RightAnswer++;
         cout << "right answer : -)" << endl;
     }
     else{
-        system("tput setab 1");
-        system("tput setaf 0");
+        system("printf '\\033]11;#ff0000\\007'");
+        system("printf '\\033]10;#000000\\007'");
         Answer.WrongAnswer++;
         cout << "wrong answer : -(\ncorrect answer is " << correctanswer << endl;
     }
@@ -106,13 +106,13 @@ void  checkAnswer(int useranswer, int correctanswer, answer &Answer){
 
 string  FinalResult(answer Answer){
     if (Answer.RightAnswer >= Answer.WrongAnswer){
-        system("tput setab 2");
-        system("tput setaf 0");
+        system("printf '\\033]11;#00ff00\\007'");
+        system("printf '\\033]10;#000000\\007'");
         return ("FINAL RESULT IS PASS : -)");
     }
     else{
-        system("tput setab 1");
-        system("tput setaf 0");
+        system("printf '\\033]11;#ff0000\\007'");
+        system("printf '\\033]10;#000000\\007'");
         return ("FINAL RESULT IS FIAL : -(");
     }
 }
