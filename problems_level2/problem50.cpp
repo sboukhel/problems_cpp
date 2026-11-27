@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <limits>
 using namespace std;
 
 struct info{
@@ -10,22 +11,21 @@ struct info{
     string pincode;
     string phone;
     long double salire;
-    bool mark = false;
 };
 
-info    readinfo(string message){
+info    readinfo(string message, string accountnumber){
     cout << message << endl;
     info information;
-    cout << "account number : ";
-    getline(cin, information.account);
+    information.account = accountnumber;
     cout << "name : ";
     getline(cin, information.name);
     cout << "pincode : ";
-    getline(cin, information.pincode);
+    getline(cin, information.pincode); 
     cout << "phone : ";
     getline(cin, information.phone);
     cout << "salir : ";
     cin >> information.salire;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     return information;
 }
 
@@ -91,8 +91,10 @@ vector<string> convertInfoToLine(vector<info> information, info update, string a
     vector<string> lines;
     for(int i = 0; i < information.size(); i++){
         string str = "";
-        if (information[i].account == accountnumber)
-            str += updateInfo(update);
+        if (information[i].account == accountnumber){
+            update.account = accountnumber;
+            str = updateInfo(update);
+        }
         else if(information[i].account != accountnumber){
             str += information[i].account + "#//#";
             str += information[i].name + "#//#";
@@ -127,7 +129,6 @@ vector<info> convertStringToInfo(string filename){
 int indexOfAccountFound(vector<info> &information, string accountnumber){
     for(int i = 0; i < information.size(); i++){
         if (information[i].account == accountnumber){
-            information[i].mark = true;
             return i;
         }
     }
@@ -148,7 +149,7 @@ void saveNewFile(vector<info> information, string filename, string accountnumber
     cout << "this prosses is success" << endl;
 }
 
-void printBanner(vector<info> information, string accountnumber, int index){
+void printBanner(vector<info> &information, string accountnumber, int index){
     if (information[index].account == accountnumber){
         cout << "the following are client details : " << endl;
         cout << "account number : " << information[index].account << endl;
@@ -168,8 +169,9 @@ int main(){
         printBanner(information, accountnumber, linenumber);
         cout << "do you want to update this account :" << endl;
         cin >> reponce;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         if(towlower(reponce) == 'y'){
-            info line = readinfo("enter your information for update : ");
+            info line = readinfo("enter your information for update : ", accountnumber);
             saveNewFile(information,  "info.txt", accountnumber, line);
         }
     }
